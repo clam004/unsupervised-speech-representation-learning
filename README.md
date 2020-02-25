@@ -13,7 +13,7 @@ P("the"|angry) > P("hate"|angry).
 
 So a better way to measure the link between "hate" and angry might be
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=\frac{P("hate"|angry)}{P("hate")}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{P("hate"|angry)}{P("hate")}" title="\frac{P("hate"|angry)}{P("hate")}" /></a>
+![equation](https://latex.codecogs.com/gif.latex?\frac{P("hate"|angry)}{P("hate")})
 
 This is the "density ratio" in the CPC paper. 
 
