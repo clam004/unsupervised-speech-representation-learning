@@ -29,6 +29,8 @@ The CPC paper uses this concept to learn meaningful representations of sequences
 
 $$\frac{P(x_{t+k}|c_t)}{P(x_{t+k})} \approx e^{z^T_{t+k} W_k c_t)} $$
 
+![equation](https://latex.codecogs.com/gif.latex?\frac{P(x_{t&plus;k}|c_t)}{P(x_{t&plus;k})}&space;\approx&space;e^{z^T_{t&plus;k}&space;W_k&space;c_t)})
+
 Where z is an encoding of x, much like texts are an encoding of speech. Here z_t+k means the z's in the future relative to a timepoint t. c_t is a summary of series of z's from z_0 to z_t, and W is a matrix transformation to make z and c the same size so that they can be compared. 
 
 # The Encoder-AutoRegressive Model
@@ -41,15 +43,15 @@ The Noise Contrastive Estimation is acheived by using the other samples in the b
 
 What we learn from this implementation is that the expression 
 
-$$W_k c_t$$
+W_k c_t
 
 in the log-bilinear model, is meant to be an approximation of 
 
-$$z_{t+k}$$
+z_{t+k}
 
 And so the higher the dot product is between the two, the higher is the density ratio estimate f_k, where
 
-$$f_k(x_{t+k}, c_t) = exp(z^T_{t+k} W_k c_t)$$
+![equation](https://latex.codecogs.com/gif.latex?f_k(x_{t&plus;k},&space;c_t)&space;=&space;exp(z^T_{t&plus;k}&space;W_k&space;c_t))
 
 If you look at the implementation below, you will not see the exponent term, because this exponent term is incorporated into the log softmax term. 
 
@@ -74,11 +76,7 @@ Suppose batch size is 3 and the first row of zWc are the elements `[0.1,  1,  -0
 
 Here I show you which line in the code corresponds to the loss function described int he paper:
 
-$$ InfoNCELoss(z_{t = t' \rightarrow t'+k}, c_t) = - E \left[  \log( \frac{f_k(z_{t+k}, c_t)}{\sum_{J} f_k(z_{j}, c_t)} ) \right] $$
-
-$$ = - E \left[  \log( \frac{e^{z^T_{t+k} W_k c_t}}{\sum_{J} e^{z^T_{j} W_k c_t}} ) \right]  $$
-
-$$ = - E \left[  \log( softmax( e^{z^T_{j} W_k c_t)}_i ) \right]  $$
+![equation](https://latex.codecogs.com/gif.latex?$$&space;InfoNCELoss(z_{t&space;=&space;t'&space;\rightarrow&space;t'&plus;k},&space;c_t)&space;=&space;-&space;E&space;\left[&space;\log(&space;\frac{f_k(z_{t&plus;k},&space;c_t)}{\sum_{J}&space;f_k(z_{j},&space;c_t)}&space;)&space;\right]\\&space;=&space;-&space;E&space;\left[&space;\log(&space;\frac{e^{z^T_{t&plus;k}&space;W_k&space;c_t}}{\sum_{J}&space;e^{z^T_{j}&space;W_k&space;c_t}}&space;)&space;\right]&space;\\&space;$$&space;=&space;-&space;E&space;\left[&space;\log(&space;softmax(&space;e^{z^T_{j}&space;W_k&space;c_t)}_i&space;)&space;\right]&space;$$)
 
 Where i is the index of the correct element in the softmax, the code version of this is:
 
