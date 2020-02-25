@@ -31,6 +31,9 @@ $$\frac{P(x_{t+k}|c_t)}{P(x_{t+k})} \approx e^{z^T_{t+k} W_k c_t)} $$
 
 ![equation](https://latex.codecogs.com/gif.latex?\frac{P(x_{t&plus;k}|c_t)}{P(x_{t&plus;k})}&space;\approx&space;e^{z^T_{t&plus;k}&space;W_k&space;c_t)})
 
+
+![equation](https://latex.codecogs.com/gif.latex?\frac{P(x_{t&plus;k}|c_t)}{P(x_{t&plus;k})}&space;\approx&space;e^{z^T_{t&plus;k}&space;W_k&space;c_t)})
+
 Where z is an encoding of x, much like texts are an encoding of speech. Here z_t+k means the z's in the future relative to a timepoint t. c_t is a summary of series of z's from z_0 to z_t, and W is a matrix transformation to make z and c the same size so that they can be compared. 
 
 # The Encoder-AutoRegressive Model
