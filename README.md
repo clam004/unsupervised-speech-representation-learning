@@ -1,40 +1,9 @@
 # unsupervised-speech-representation-learning-
 This is a intuitive explanation of Representation Learning with Contrastive Predictive Coding  using code provided by jefflai108 that uses CPC to learn representations of sound files for the purpose of speech recognition
 
-Take the utterance:
+# Data
 
-"I hate that the good are the ones that starve and the selfish are the ones that feast "
-
-What do you think is greater ? the probability of saying the word "hate" while this person is angry, or saying the word "the" while this person is angry ?
-
-Actually, if the person saying the utterance above is infact angry, based on this utterance alone, 
-
-P("the"|angry) > P("hate"|angry).
-
-So a better way to measure the link between "hate" and angry might be
-
-![equation](https://latex.codecogs.com/gif.latex?\frac{P("hate"|angry)}{P("hate")})
-
-This is the "density ratio" in the CPC paper. 
-
-But what about all the other emotions you can have besides angry, like happy, sad and scared. How much does "hate" tell you about being angry as opposed to all these other emotions?
-
-Define P(word, emotion) as the probability of saying that word while having that emotion among all the other combination of words and emotions. ie P("hate"|scared), P("good"|happy) etc. And P(word|emotion) meaning the probability of someone saying that word when you know for a fact that they have that emotion, not considering words spoken during other emotions.
-
-Then the mutual information is:
-
-![equation](https://latex.codecogs.com/gif.latex?MI(word,&space;emotion)&space;=&space;\sum_{words,emotions}P(word,emotion)log(\frac{P(word|emotion)}{P(word)}))
-
-The CPC paper uses this concept to learn meaningful representations of sequences. It models the density ratio as a log-bilinear model
-
-$$\frac{P(x_{t+k}|c_t)}{P(x_{t+k})} \approx e^{z^T_{t+k} W_k c_t)} $$
-
-![equation](https://latex.codecogs.com/gif.latex?\frac{P(x_{t&plus;k}|c_t)}{P(x_{t&plus;k})}&space;\approx&space;e^{z^T_{t&plus;k}&space;W_k&space;c_t)})
-
-
-![equation](https://latex.codecogs.com/gif.latex?\frac{P(x_{t&plus;k}|c_t)}{P(x_{t&plus;k})}&space;\approx&space;e^{z^T_{t&plus;k}&space;W_k&space;c_t)})
-
-Where z is an encoding of x, much like texts are an encoding of speech. Here z_t+k means the z's in the future relative to a timepoint t. c_t is a summary of series of z's from z_0 to z_t, and W is a matrix transformation to make z and c the same size so that they can be compared. 
+From the website http://www.openslr.org/12/ , the files dev-clean.tar.gz and train-clean-100.tar.gz are downloaded, unpacked and placed into validation and training folders respectively. Each one unpacks into a folder called LibriSpeech but the contents are not the same. Inside this folder there will be a folder called "dev-clean" and "train-clean-100" for the validation and training set respectively. The paths to these folder are what you need to provide to `RawDataset` as in the demonstration below, in order to train our CPC model. 
 
 # The Encoder-AutoRegressive Model
 
@@ -54,7 +23,7 @@ z_{t+k}
 
 And so the higher the dot product is between the two, the higher is the density ratio estimate f_k, where
 
-![equation](https://latex.codecogs.com/gif.latex?f_k(x_{t&plus;k},&space;c_t)&space;=&space;exp(z^T_{t&plus;k}&space;W_k&space;c_t))
+![equation](https://latex.codecogs.com/gif.latex?f_k%28x_%7Bt&plus;k%7D%2C%20c_t%29%20%3D%20exp%28z%5ET_%7Bt&plus;k%7D%20W_k%20c_t%29)
 
 If you look at the implementation below, you will not see the exponent term, because this exponent term is incorporated into the log softmax term. 
 
@@ -79,7 +48,13 @@ Suppose batch size is 3 and the first row of zWc are the elements `[0.1,  1,  -0
 
 Here I show you which line in the code corresponds to the loss function described int he paper:
 
-![equation](https://latex.codecogs.com/gif.latex?InfoNCELoss(z_{t&space;=&space;t'&space;\rightarrow&space;t'&plus;k},&space;c_t)&space;=&space;-&space;E&space;\left[&space;\log(&space;\frac{f_k(z_{t&plus;k},&space;c_t)}{\sum_{J}&space;f_k(z_{j},&space;c_t)}&space;)&space;\right]\\)
+
+![equation](https://latex.codecogs.com/gif.latex?InfoNCELoss%28z_%7Bt%20%3D%20t%27%20%5Crightarrow%20t%27&plus;k%7D%2C%20c_t%29%20%3D%20-%20E%20%5Cleft%5B%20%5Clog%28%20%5Cfrac%7Bf_k%28z_%7Bt&plus;k%7D%2C%20c_t%29%7D%7B%5Csum_%7BJ%7D%20f_k%28z_%7Bj%7D%2C%20c_t%29%7D%20%29%20%5Cright%5D)
+
+
+![equation](https://latex.codecogs.com/gif.latex?%3D%20-%20E%20%5Cleft%5B%20%5Clog%28%20%5Cfrac%7Be%5E%7Bz%5ET_%7Bt&plus;k%7D%20W_k%20c_t%7D%7D%7B%5Csum_%7BJ%7D%20e%5E%7Bz%5ET_%7Bj%7D%20W_k%20c_t%7D%7D%20%29%20%5Cright%5D)
+
+![equation](https://latex.codecogs.com/gif.latex?%3D%20-%20E%20%5Cleft%5B%20%5Clog%28%20softmax%28%20e%5E%7Bz%5ET_%7Bj%7D%20W_k%20c_t%29%7D_i%20%29%20%5Cright%5D)
 
 Where i is the index of the correct element in the softmax, the code version of this is:
 
@@ -91,25 +66,6 @@ The fact that the nce is accumulated over each sample of the batch and each futu
 
 The `torch.diag(logsof_zWc)` makes a vector from the diagonal of the `logsof_zWc` matrix, so it is taking only the log softmax values of the correct z_t_k dot W_c_k pairs (this value through the softmax has already incorporated information from the neighboring negative samples). Just like the softmax term is only considering the ratio of the element over the elements including itself:
 
-$$\frac{f_k(z_{t+k}, c_t)}{\sum_{J} f_k(z_{j}, c_t)}$$ 
+![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7Bf_k%28z_%7Bt&plus;k%7D%2C%20c_t%29%7D%7B%5Csum_%7BJ%7D%20f_k%28z_%7Bj%7D%2C%20c_t%29%7D)
 
 Here I use z instead of x for simplicity and making the code look like the formula, the paper uses x in the density ratio formula f_k. But z is a direct mapping from x, so hopefully you can see that it is the same. 
-
-# The softmax probability, the density ratio and mutual information
-The paper asks you to noitice that the loss function is of the same form as the cross entropy loss 
-
-$$-ylog(P(y|x))$$
-
-where
-
-$$ P(y|x) ~ \frac{f_k(z_{t+k}, c_t)}{\sum_{J} f_k(z_{j}, c_t)}$$  
-
-Returning to the analogy of words and emotions, the loss function is optimized when the model's internal representation of what it means to be angry maximizes P("hate"|angry)/P("hate").
-
-What is the probability that is the angry kind of hate and not one of the other hates like from someone scared or happy? its not P("hate"|angry)/P("hate") cause thats a ratio, not a probability. probabilities need to sum to 1 when you add them together with all the other probabilities, "good", "hate", "the".
-
-The paper presents this as 
-
-$$ P(d=i|X,c_t) = \frac{ \frac{p(word_i|emotion_t)}{p(word_i)} }{ \sum^{N}_{j=1} \frac{p(word_j|emotion_t)}{p(word_j)} } $$
-
-and uses this as a justification for why minimizing the loss function in turns maximizes the density ration, which in turn maximizes the mutual information. The relationship to mutual information is proven in the Appendix. 
