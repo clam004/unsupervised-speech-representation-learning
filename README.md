@@ -23,7 +23,7 @@ Define P(word, emotion) as the probability of saying that word while having that
 
 Then the mutual information is:
 
-$$MI(word, emotion) = \sum_{words,emotions}P(word,emotion)log(\frac{P(word|emotion)}{P(word)})$$
+![equation](https://latex.codecogs.com/gif.latex?MI(word,&space;emotion)&space;=&space;\sum_{words,emotions}P(word,emotion)log(\frac{P(word|emotion)}{P(word)}))
 
 The CPC paper uses this concept to learn meaningful representations of sequences. It models the density ratio as a log-bilinear model
 
