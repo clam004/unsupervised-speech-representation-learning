@@ -1,5 +1,9 @@
 # unsupervised-speech-representation-learning-
-This is a intuitive explanation of Representation Learning with Contrastive Predictive Coding  using code provided by jefflai108 that uses CPC to learn representations of sound files for the purpose of speech recognition
+
+This tutorial helps you connect the mathematics described in the paper with the actual code used implement those formulas by having you train the implementation on a small but meaningful dataset.
+
+This is a intuitive explanation of [Representation Learning with Contrastive Predictive Coding](https://arxiv.org/pdf/1807.03748.pdf)  using code provided by jefflai108 that uses CPC to learn representations of sound files for the purpose of speech recognition.
+<img src="https://user-images.githubusercontent.com/2807595/45751168-8170f480-bc4c-11e8-81a5-3be064089642.png">
 
 # Data
 
