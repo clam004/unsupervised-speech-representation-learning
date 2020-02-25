@@ -76,7 +76,7 @@ Suppose batch size is 3 and the first row of zWc are the elements `[0.1,  1,  -0
 
 Here I show you which line in the code corresponds to the loss function described int he paper:
 
-![equation](https://latex.codecogs.com/gif.latex?$$&space;InfoNCELoss(z_{t&space;=&space;t'&space;\rightarrow&space;t'&plus;k},&space;c_t)&space;=&space;-&space;E&space;\left[&space;\log(&space;\frac{f_k(z_{t&plus;k},&space;c_t)}{\sum_{J}&space;f_k(z_{j},&space;c_t)}&space;)&space;\right]\\&space;=&space;-&space;E&space;\left[&space;\log(&space;\frac{e^{z^T_{t&plus;k}&space;W_k&space;c_t}}{\sum_{J}&space;e^{z^T_{j}&space;W_k&space;c_t}}&space;)&space;\right]&space;\\&space;$$&space;=&space;-&space;E&space;\left[&space;\log(&space;softmax(&space;e^{z^T_{j}&space;W_k&space;c_t)}_i&space;)&space;\right]&space;$$)
+![equation](https://latex.codecogs.com/gif.latex?InfoNCELoss(z_{t&space;=&space;t'&space;\rightarrow&space;t'&plus;k},&space;c_t)&space;=&space;-&space;E&space;\left[&space;\log(&space;\frac{f_k(z_{t&plus;k},&space;c_t)}{\sum_{J}&space;f_k(z_{j},&space;c_t)}&space;)&space;\right]\\)
 
 Where i is the index of the correct element in the softmax, the code version of this is:
 
