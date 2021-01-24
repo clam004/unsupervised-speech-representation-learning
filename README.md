@@ -5,6 +5,8 @@ This tutorial helps you connect the mathematics described in the paper with the 
 This is a intuitive explanation of [Representation Learning with Contrastive Predictive Coding](https://arxiv.org/pdf/1807.03748.pdf)  using code provided by jefflai108 that uses CPC to learn representations of sound files for the purpose of speech recognition.
 <img src="https://user-images.githubusercontent.com/2807595/45751168-8170f480-bc4c-11e8-81a5-3be064089642.png">
 
+The two notebooks are mostly the same, the only difference is the analogy I try to use at the beginning
+
 # Data
 
 From the website http://www.openslr.org/12/ , the files dev-clean.tar.gz and train-clean-100.tar.gz are downloaded, unpacked and placed into validation and training folders respectively. Each one unpacks into a folder called LibriSpeech but the contents are not the same. Inside this folder there will be a folder called "dev-clean" and "train-clean-100" for the validation and training set respectively. The paths to these folder are what you need to provide to `RawDataset` as in the demonstration below, in order to train our CPC model. 
