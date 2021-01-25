@@ -9,7 +9,7 @@ The two notebooks are mostly the same, the only difference is the analogy I try 
 
 # Data
 
-From the website http://www.openslr.org/12/ , the files dev-clean.tar.gz and train-clean-100.tar.gz are downloaded, unpacked and placed into validation and training folders respectively. Each one unpacks into a folder called LibriSpeech but the contents are not the same. Inside this folder there will be a folder called "dev-clean" and "train-clean-100" for the validation and training set respectively. The paths to these folder are what you need to provide to `RawDataset` as in the demonstration in order to train our CPC model. [https://drive.google.com/drive/folders/1rKYFjYktxiJ168bD-Ejm9JAhggkco_Ht?usp=sharing](alternative data link)
+From the website http://www.openslr.org/12/ , the files dev-clean.tar.gz and train-clean-100.tar.gz are downloaded, unpacked and placed into validation and training folders respectively. Each one unpacks into a folder called LibriSpeech but the contents are not the same. Inside this folder there will be a folder called "dev-clean" and "train-clean-100" for the validation and training set respectively. The paths to these folder are what you need to provide to `RawDataset` as in the demonstration in order to train our CPC model. [alternative data link](https://drive.google.com/drive/folders/1rKYFjYktxiJ168bD-Ejm9JAhggkco_Ht?usp=sharing)
 
 # The Encoder-AutoRegressive Model
 
